@@ -24,3 +24,6 @@ variable "project_name" {
   type    = string
   default = "eu-west-1"
 }
+variable "alarm_email" {
+  type = string
+}

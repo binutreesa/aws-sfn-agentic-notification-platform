@@ -8,14 +8,20 @@ module "sfn" {
 
 module "event_queue" {
   source = "../../01-modules-repo/modules/sqs"
-  name   = "${local.name_prefix}-sfn-events"
-  tags   = local.common_tags
+  visibility_timeout_seconds = 90
+  queue_name        = "${local.name_prefix}-sfn-events"
+  dlq_name          = "${local.name_prefix}-sfn-events-dlq"
+  max_receive_count = 3
+  tags = local.common_tags
 }
-
 module "notification_queue" {
   source = "../../01-modules-repo/modules/sqs"
-  name   = "${local.name_prefix}-notifications"
-  tags   = local.common_tags
+  visibility_timeout_seconds = 90
+
+  queue_name        = "${local.name_prefix}-notifications"
+  dlq_name          = "${local.name_prefix}-notifications-dlq"
+  max_receive_count = 3
+  tags = local.common_tags
 }
 
 module "eventbridge" {
@@ -183,4 +189,29 @@ resource "aws_iam_role_policy" "notifier_send_email" {
       }
     ]
   })
+}
+
+module "cloudwatch_alarms" {
+  source = "../../01-modules-repo/modules/cloudwatch-alarms"
+
+  project_name = var.project_name
+  environment  = var.environment
+  alarm_email  = var.alarm_email
+
+  lambda_function_names = [
+    module.enricher_lambda.function_name,
+    module.notifier_lambda.function_name
+  ]
+
+  queue_names = [
+    module.event_queue.queue_name,
+    module.notification_queue.queue_name
+  ]
+
+  dlq_names = [
+    module.event_queue.dlq_name,
+    module.notification_queue.dlq_name
+  ]
+
+  tags = local.common_tags
 }
