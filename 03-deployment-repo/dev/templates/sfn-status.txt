@@ -1,0 +1,8 @@
+Step Function Execution {{status}}
+Execution: {{executionName}}
+Summary: {{summary}}
+Agentic Summary: {{agenticSummary}}
+State Machine: {{stateMachineArn}}
+Execution ARN: {{executionArn}}
+Error: {{error}}
+Cause: {{cause}}
