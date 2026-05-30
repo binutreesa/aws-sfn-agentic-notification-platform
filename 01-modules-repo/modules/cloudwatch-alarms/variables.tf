@@ -1,30 +1,28 @@
-variable "name" {
+variable "project_name" {
   type = string
 }
+
+variable "environment" {
+  type = string
+}
+
+variable "lambda_function_names" {
+  type = list(string)
+}
+
+variable "queue_names" {
+  type = list(string)
+}
+
+variable "dlq_names" {
+  type = list(string)
+}
+
+variable "alarm_email" {
+  type = string
+}
+
 variable "tags" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
-variable "queue_name" {
-  type = string
-}
-
-variable "dlq_name" {
-  type = string
-}
-
-variable "max_receive_count" {
-  type    = number
-  default = 3
-}
-
-variable "visibility_timeout_seconds" {
-  type    = number
-  default = 30
-}
-
-variable "message_retention_seconds" {
-  type    = number
-  default = 345600
-}
-
