@@ -1,12 +1,134 @@
 <html>
-  <body>
-    <h2>Step Function Execution {{status}}</h2>
-    <p><b>Execution:</b> {{executionName}}</p>
-    <p><b>Summary:</b> {{summary}}</p>
-    <p><b>Agentic Summary:</b> {{agenticSummary}}</p>
-    <p><b>State Machine:</b> {{stateMachineArn}}</p>
-    <p><b>Execution ARN:</b> {{executionArn}}</p>
-    <p><b>Error:</b> {{error}}</p>
-    <p><b>Cause:</b> {{cause}}</p>
-  </body>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+        }
+
+        .header {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .failure {
+            color: red;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Step Function Execution Notification</h2>
+
+<table>
+
+<tr>
+    <td class="header">Environment</td>
+    <td>{{environment}}</td>
+</tr>
+
+<tr>
+    <td class="header">Product</td>
+    <td>{{product}}</td>
+</tr>
+
+<tr>
+    <td class="header">Request ID</td>
+    <td>{{requestId}}</td>
+</tr>
+
+<tr>
+    <td class="header">Correlation ID</td>
+    <td>{{correlationId}}</td>
+</tr>
+
+<tr>
+    <td class="header">Customer ID</td>
+    <td>{{customerId}}</td>
+</tr>
+
+<tr>
+    <td class="header">UUID</td>
+    <td>{{uuid}}</td>
+</tr>
+
+<tr>
+    <td class="header">Batch Requirement</td>
+    <td>{{batchRequirement}}</td>
+</tr>
+
+<tr>
+    <td class="header">Batch ID</td>
+    <td>{{batchId}}</td>
+</tr>
+
+<tr>
+    <td class="header">Batch Size</td>
+    <td>{{batchSize}}</td>
+</tr>
+
+<tr>
+    <td class="header">Execution Name</td>
+    <td>{{executionName}}</td>
+</tr>
+
+<tr>
+    <td class="header">Execution ARN</td>
+    <td>{{executionArn}}</td>
+</tr>
+
+<tr>
+    <td class="header">Status</td>
+    <td>{{status}}</td>
+</tr>
+
+<tr>
+    <td class="header">Error</td>
+    <td>{{error}}</td>
+</tr>
+
+<tr>
+    <td class="header">Cause</td>
+    <td>{{cause}}</td>
+</tr>
+
+<tr>
+    <td class="header">Start Time</td>
+    <td>{{startDate}}</td>
+</tr>
+
+<tr>
+    <td class="header">End Time</td>
+    <td>{{stopDate}}</td>
+</tr>
+
+</table>
+
+<br>
+
+<h3>Summary</h3>
+
+<p>{{summary}}</p>
+
+<h3>AI Analysis</h3>
+
+<p>{{agenticSummary}}</p>
+
+</body>
 </html>

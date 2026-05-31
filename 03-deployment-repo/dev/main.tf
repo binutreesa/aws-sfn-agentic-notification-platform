@@ -7,21 +7,21 @@ module "sfn" {
 }
 
 module "event_queue" {
-  source = "../../01-modules-repo/modules/sqs"
+  source                     = "../../01-modules-repo/modules/sqs"
   visibility_timeout_seconds = 90
-  queue_name        = "${local.name_prefix}-sfn-events"
-  dlq_name          = "${local.name_prefix}-sfn-events-dlq"
-  max_receive_count = 3
-  tags = local.common_tags
+  queue_name                 = "${local.name_prefix}-sfn-events"
+  dlq_name                   = "${local.name_prefix}-sfn-events-dlq"
+  max_receive_count          = 3
+  tags                       = local.common_tags
 }
 module "notification_queue" {
-  source = "../../01-modules-repo/modules/sqs"
+  source                     = "../../01-modules-repo/modules/sqs"
   visibility_timeout_seconds = 90
 
   queue_name        = "${local.name_prefix}-notifications"
   dlq_name          = "${local.name_prefix}-notifications-dlq"
   max_receive_count = 3
-  tags = local.common_tags
+  tags              = local.common_tags
 }
 
 module "eventbridge" {
@@ -72,6 +72,22 @@ resource "aws_iam_role_policy" "enricher_sqs_policy" {
         ]
 
         Resource = module.notification_queue.queue_arn
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "states:DescribeExecution"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:GetObject"
+        ],
+        "Resource" : [
+    "arn:aws:s3:::retro-dnb/configs/pre-orchestration/*"
+  ]
       }
 
     ]
@@ -79,17 +95,18 @@ resource "aws_iam_role_policy" "enricher_sqs_policy" {
 }
 
 module "enricher_lambda" {
-  source        = "../../01-modules-repo/modules/lambda"
-  function_name = "${local.name_prefix}-enricher"
-  source_file   = "../../02-application-repo/lambdas/enricher/app.py"
-  create_custom_policy = true
+  source                = "../../01-modules-repo/modules/lambda"
+  function_name         = "${local.name_prefix}-enricher"
+  source_dir            = "../../02-application-repo/lambdas/enricher/package"
+  create_custom_policy  = true
+
   environment_variables = {
     NOTIFIER_QUEUE_URL = module.notification_queue.queue_url
+    OPENAI_API_KEY     = var.openai_api_key
   }
 
   tags = local.common_tags
 }
-
 resource "aws_iam_role_policy" "notifier_policy" {
 
   role = module.notifier_lambda.role_id
@@ -146,13 +163,13 @@ module "notifier_lambda" {
 resource "aws_lambda_event_source_mapping" "event_queue_to_enricher" {
   event_source_arn = module.event_queue.queue_arn
   function_name    = module.enricher_lambda.function_arn
-  batch_size        = 10
+  batch_size       = 10
 }
 
 resource "aws_lambda_event_source_mapping" "notification_queue_to_notifier" {
   event_source_arn = module.notification_queue.queue_arn
   function_name    = module.notifier_lambda.function_arn
-  batch_size        = 10
+  batch_size       = 10
 }
 
 resource "aws_iam_role_policy" "enricher_send_notification" {
@@ -160,7 +177,7 @@ resource "aws_iam_role_policy" "enricher_send_notification" {
   role = module.enricher_lambda.role_id
 
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
         Effect = "Allow"
@@ -177,7 +194,7 @@ resource "aws_iam_role_policy" "notifier_send_email" {
   role = module.notifier_lambda.role_id
 
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17"
     Statement = [
       {
         Effect = "Allow"

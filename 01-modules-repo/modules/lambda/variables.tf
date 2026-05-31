@@ -13,7 +13,13 @@ variable "runtime" {
 }
 
 variable "source_file" {
-  type = string
+  type    = string
+  default = null
+}
+
+variable "source_dir" {
+  type    = string
+  default = null
 }
 
 variable "environment_variables" {
@@ -30,6 +36,7 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
 variable "create_custom_policy" {
   type    = bool
   default = false

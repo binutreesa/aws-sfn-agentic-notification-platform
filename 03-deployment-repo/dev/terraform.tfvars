@@ -1,6 +1,0 @@
-aws_region       = "eu-west-1"
-project_name     = "sfn-agentic-notification"
-environment      = "dev"
-from_email = "treesabinu@gmail.com"
-to_email   = "binutreesa@gmail.com"
-alarm_email = "treesabinu@gmail.com"

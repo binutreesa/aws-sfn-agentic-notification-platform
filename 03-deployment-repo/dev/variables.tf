@@ -27,3 +27,8 @@ variable "project_name" {
 variable "alarm_email" {
   type = string
 }
+
+variable "openai_api_key" {
+  type      = string
+  sensitive = true
+}

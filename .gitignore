@@ -1,8 +1,19 @@
-.terraform/
-*.tfstate
-*.tfstate.*
-.terraform.lock.hcl
+# Lambda build artifacts
+package/
+.build/
 *.zip
+
+# Terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.*
+terraform.tfvars
+*.tfvars
+
+# Python
 __pycache__/
+*.pyc
 .env
-.DS_Store
+*.env
+
+

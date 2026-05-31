@@ -1,8 +1,32 @@
-Step Function Execution {{status}}
-Execution: {{executionName}}
-Summary: {{summary}}
-Agentic Summary: {{agenticSummary}}
-State Machine: {{stateMachineArn}}
+Step Function Execution Notification
+
+Environment: {{environment}}
+Product: {{product}}
+
+Request ID: {{requestId}}
+Correlation ID: {{correlationId}}
+Customer ID: {{customerId}}
+UUID: {{uuid}}
+
+Batch Requirement: {{batchRequirement}}
+Batch ID: {{batchId}}
+Batch Size: {{batchSize}}
+
+Execution Name: {{executionName}}
 Execution ARN: {{executionArn}}
+
+Status: {{status}}
+
 Error: {{error}}
-Cause: {{cause}}
+
+Cause:
+{{cause}}
+
+Start Time: {{startDate}}
+End Time: {{stopDate}}
+
+Summary:
+{{summary}}
+
+AI Analysis:
+{{agenticSummary}}
